@@ -40,5 +40,16 @@ function addTodo (e) {
     todoInput.value = "";
 }
 
+function checkDelete(e) {
+    const item = e.target;
+    // console.log(e.target)
+    // delete item todo list
+    if (item.classList[2] === "delete-btn"){
+        const todo = item.parentElement;
+        todo.remove();
+    }
+}
+
 // Event Listener
 addTodoButton.addEventListener('click', addTodo);
+todoList.addEventListener('click', checkDelete);
