@@ -23,7 +23,7 @@ function addTodo (e) {
     todoDiv.appendChild(newTodo);
 
     // add item todo list to localstorage
-    saveDataInLocalStorage(todoInput.value);
+    saveTodoInLocalStorage(todoInput.value);
 
     // create button check
     const checkButton = document.createElement('button');
@@ -43,7 +43,7 @@ function addTodo (e) {
     todoInput.value = "";
 }
 
-function checkDelete(e) {
+let checkOrDelete = (e) => {
     const item = e.target;
     // console.log(e.target)
 
@@ -56,12 +56,12 @@ function checkDelete(e) {
     // delete item todo list
     if (item.classList[2] === "delete-btn"){
         const todo = item.parentElement;
-        removeTodoItemFromLocalStorage(todo);
+        removeTodoFromLocalStorage(todo);
         todo.remove();
     }
 }
 
-function saveDataInLocalStorage(item){
+let saveTodoInLocalStorage = (item) => {
     // check if item todo list is already exist in local storage or not
     let items;
     if (localStorage.getItem('items') === null) {
@@ -74,7 +74,7 @@ function saveDataInLocalStorage(item){
     localStorage.setItem("items", JSON.stringify(items));
 }
 
-function getTodoItemFromLocalStorage(){
+let getTodoFromLocalStorage = () => {
     let items;
     if (localStorage.getItem('items') === null) {
         items = [];
@@ -111,7 +111,7 @@ function getTodoItemFromLocalStorage(){
     });
 }
 
-function removeTodoItemFromLocalStorage(item){
+let removeTodoFromLocalStorage = (item) => {
     // check if item todo list is already exist in local storage or not
     let items;
     if (localStorage.getItem('items') === null) {
@@ -130,7 +130,8 @@ function removeTodoItemFromLocalStorage(item){
     localStorage.setItem('items', JSON.stringify(items));
 }
 
+
 // Event Listener
-document.addEventListener('DOMContentLoaded', getTodoItemFromLocalStorage);
+document.addEventListener('DOMContentLoaded', getTodoFromLocalStorage);
 addTodoButton.addEventListener('click', addTodo);
-todoList.addEventListener('click', checkDelete);
+todoList.addEventListener('click', checkOrDelete);
