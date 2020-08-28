@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: linear-gradient(120deg, #f5ce51, #f08d72);
+    background :#f08d72;
     color: white;
     font-family: 'Montserrat', sans-serif;
 }
@@ -82,3 +82,13 @@ form button:hover {
 .check-btn {
     background: teal;
 }
+
+.check {
+    text-decoration: line-through;
+    opacity: .5;
+}
+
+.todo-item {
+    padding: 0rem .5rem;
+}
+
