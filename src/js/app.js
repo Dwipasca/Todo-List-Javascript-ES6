@@ -43,6 +43,13 @@ function addTodo (e) {
 function checkDelete(e) {
     const item = e.target;
     // console.log(e.target)
+
+    //chech todo
+    if (item.classList[2] === "check-btn"){
+        const todo = item.parentElement;
+        todo.classList.toggle('check');
+    }
+
     // delete item todo list
     if (item.classList[2] === "delete-btn"){
         const todo = item.parentElement;
