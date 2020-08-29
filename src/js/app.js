@@ -5,25 +5,18 @@ const todoInput = document.querySelector('.todo-input');
 const addTodoButton = document.querySelector('.add-todo-button');
 const todoList = document.querySelector('.todo-list');
 
-//functions
-function addTodo (e) {
-    // prevent form to submitting
-    event.preventDefault();
-    
+let createElements = (value) => {
     // create div container
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo')
 
     // create element li 
     const newTodo = document.createElement('li');
-    newTodo.innerText= todoInput.value;
+    newTodo.innerText= value;
     newTodo.classList.add('todo-item');
 
     // make newTodo child from todoDiv
     todoDiv.appendChild(newTodo);
-
-    // add item todo list to localstorage
-    saveTodoInLocalStorage(todoInput.value);
 
     // create button check
     const checkButton = document.createElement('button');
@@ -35,14 +28,26 @@ function addTodo (e) {
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('fas', 'fa-trash', 'delete-btn')
     todoDiv.appendChild(deleteButton);
-    
+
     // make todoDiv child from todoList
     todoList.appendChild(todoDiv);
+}
+
+//functions
+function addTodo (e) {
+    // prevent form to submitting
+    e.preventDefault();
+    
+    createElements(todoInput.value);
+
+    // add item todo list to localstorage
+    saveTodoInLocalStorage(todoInput.value);
 
     // clear Input todo after add todo item
     todoInput.value = "";
 }
 
+// function check or delete what user click
 let checkOrDelete = (e) => {
     const item = e.target;
     // console.log(e.target)
@@ -61,64 +66,40 @@ let checkOrDelete = (e) => {
     }
 }
 
-let saveTodoInLocalStorage = (item) => {
-    // check if item todo list is already exist in local storage or not
-    let items;
+// check if item todo list is already exist in local storage or not
+let existOrNot = () => {
+    let items
     if (localStorage.getItem('items') === null) {
         items = [];
     }else {
         items = JSON.parse(localStorage.getItem('items'));
     }
+    return items
+}
+
+let saveTodoInLocalStorage = (item) => {
+    let items = existOrNot();
 
     items.push(item);
+
+    console.log(items);
     localStorage.setItem("items", JSON.stringify(items));
 }
 
 let getTodoFromLocalStorage = () => {
-    let items;
-    if (localStorage.getItem('items') === null) {
-        items = [];
-    }else {
-        items = JSON.parse(localStorage.getItem('items'));
-    }
+
+    let items = existOrNot();
 
     items.forEach(item => {
-        // create div container
-        const todoDiv = document.createElement('div');
-        todoDiv.classList.add('todo')
-
-        // create element li 
-        const newTodo = document.createElement('li');
-        newTodo.innerText= item;
-        newTodo.classList.add('todo-item');
-
-        // make newTodo child from todoDiv
-        todoDiv.appendChild(newTodo);
-
-        // create button check
-        const checkButton = document.createElement('button');
-        checkButton.classList.add('fas', 'fa-check', 'check-btn') // error if use space, so split class with '', 
         
-        todoDiv.appendChild(checkButton);
+        createElements(item);
 
-        // create button delete
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('fas', 'fa-trash', 'delete-btn')
-        todoDiv.appendChild(deleteButton);
-        
-        // make todoDiv child from todoList
-        todoList.appendChild(todoDiv);
     });
 }
 
 let removeTodoFromLocalStorage = (item) => {
-    // check if item todo list is already exist in local storage or not
-    let items;
-    if (localStorage.getItem('items') === null) {
-        items = [];
-    }else {
-        items = JSON.parse(localStorage.getItem('items'));
-    }
+    
+    let items = existOrNot();
 
     //  set index item want to delete
     const itemIndex = item.children[0].innerText
